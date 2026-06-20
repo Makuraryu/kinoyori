@@ -35,10 +35,10 @@ function cityPalette(t, rain) {
     wetStreak: 'oklch(0.95 0.015 235 / 0.16)',
     viaduct: ok(0.66, c * 0.4),
     viaductDark: ok(0.56, c * 0.4),
-    tramBody: ok(0.5, c * 0.5),
-    tramRoof: ok(0.6, c * 0.5),
+    tramBody: ok(0.95, c * 0.12),
+    tramRoof: ok(0.86, c * 0.12),
     tramLine: t >= 0 ? 'oklch(0.72 0.16 38)' : 'oklch(0.7 0.12 232)',
-    tramWin: 'oklch(0.9 0.085 92)',
+    tramWin: 'oklch(0.3635 0.0397 175.6706)',
     tramHead: 'oklch(0.94 0.11 96)',
     tramTail: 'oklch(0.66 0.18 28)',
   }
