@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useWeather } from './hooks/useWeather.js'
+import { useMouseParallax } from './hooks/useMouseParallax.js'
 import { computeTheme } from './lib/theme.js'
 
 import SkyLayer from './components/effects/SkyLayer.jsx'
@@ -91,6 +92,7 @@ function StatusCard({ status, error }) {
 export default function App() {
   const { status, model, location, error, selectPlace } = useWeather()
   const [sheet, setSheet] = useState(null)
+  const parallaxRef = useMouseParallax({ strength: 3 })
 
   const hasModel = !!model
   const theme = useMemo(() => computeTheme(hasModel ? model : NEUTRAL), [hasModel, model])
@@ -112,7 +114,7 @@ export default function App() {
           <Droplets model={model} pixelScale={PIXEL_SCALE} />
           <CityScape model={model} pixelScale={PIXEL_SCALE} />
 
-          <div style={contentLayer}>
+          <div ref={parallaxRef} style={contentLayer}>
             <LocationHeader
               location={location}
               dateStr={model.dateStr}
