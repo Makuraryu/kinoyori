@@ -1,0 +1,53 @@
+@font-face {
+  font-family: 'Misaki Mincho';
+  src: url('/fonts/misaki_mincho.ttf') format('truetype');
+  font-display: swap;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+body {
+  background: #cfe6ee;
+  font-family: 'DotGothic16', monospace;
+  -webkit-font-smoothing: none;
+  text-rendering: optimizeSpeed;
+}
+
+/* drifting clouds + pulsing sun — ported from the design */
+@keyframes kn-drift1 {
+  from {
+    transform: translateX(-30vw);
+  }
+  to {
+    transform: translateX(120vw);
+  }
+}
+@keyframes kn-drift2 {
+  from {
+    transform: translateX(-42vw);
+  }
+  to {
+    transform: translateX(120vw);
+  }
+}
+@keyframes kn-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
