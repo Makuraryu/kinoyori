@@ -8,6 +8,12 @@
   box-sizing: border-box;
 }
 
+/* selection highlight = a lighter version of the active theme color */
+::selection {
+  background: var(--select, oklch(0.88 0.1 30));
+  color: var(--txt, oklch(0.34 0.05 30));
+}
+
 html,
 body {
   margin: 0;

@@ -65,6 +65,8 @@ export function computeTheme(model) {
     '--fogClearStop': (32 - muggy * 17).toFixed(1) + '%',
     '--glow': `oklch(0.86 0.17 ${hue})`,
     '--btnEdge': `oklch(0.84 0.035 ${hue})`,
+    // Text selection highlight: a light, hue-matched tint of the theme color.
+    '--select': `oklch(0.88 0.1 ${hue})`,
     '--titleBar': titleBar,
     background: `linear-gradient(180deg, ${sky[0]} 0%, ${sky[1]} 34%, ${sky[2]} 67%, ${sky[3]} 100%)`,
   }
