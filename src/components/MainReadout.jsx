@@ -19,14 +19,20 @@ const subline = {
 }
 
 export default function MainReadout({ model }) {
+  // Size the (big) temp phrase off the available content width ÷ its character
+  // count and keep it on one line, so long phrases shrink in height instead of
+  // wrapping. Available width = 100vw − contentLayer's horizontal padding; the
+  // 0.92 leaves room for letter-spacing/rounding, 176px caps the short ones.
+  const tempFont = `min(176px, calc((100vw - clamp(44px,9vw,112px)) * 0.92 / ${model.tempPhrase.length}))`
   return (
     <div style={block}>
       <div style={{ fontSize: 'clamp(20px,5vw,42px)', letterSpacing: '.07em' }}>今日は昨日より</div>
       <div
         style={{
-          fontSize: 'clamp(52px,15vw,176px)',
+          fontSize: tempFont,
           lineHeight: 0.9,
           letterSpacing: '.01em',
+          whiteSpace: 'nowrap',
           textShadow: '4px 4px 0 var(--shadow)',
         }}
       >
