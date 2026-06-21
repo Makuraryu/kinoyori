@@ -25,6 +25,17 @@ body {
   text-rendering: optimizeSpeed;
 }
 
+/* hide the scrollbar on the rise-from-bottom sheets */
+.kn-sheet {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.kn-sheet::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
 /* drifting clouds + pulsing sun — ported from the design */
 @keyframes kn-drift1 {
   from {

@@ -6,7 +6,7 @@ import PixelWindow from './PixelWindow.jsx'
 
 export default function BottomSheet({ open, title, theme, children }) {
   return (
-    <div style={theme.mkSheet(open)} aria-hidden={!open}>
+    <div className="kn-sheet" style={theme.mkSheet(open)} aria-hidden={!open}>
       <PixelWindow title={title}>{children}</PixelWindow>
     </div>
   )

@@ -42,6 +42,8 @@ export function computeTheme(model) {
     ? `oklch(0.80 0.02 ${hue})`
     : `oklch(0.985 0.012 ${hue})`
   const titleBar = `oklch(0.94 0.038 ${hue})`
+  // Link color: a lightened, gently saturated version of the temperature hue.
+  const link = `oklch(0.62 0.12 ${hue})`
 
   // Root container style: positioning + the CSS custom properties every layer
   // and effect reads from.
@@ -120,7 +122,7 @@ export function computeTheme(model) {
     position: 'absolute',
     left: 'clamp(16px,3.5vw,32px)',
     bottom: 'clamp(16px,3.5vw,32px)',
-    zIndex: 6,
+    zIndex: 7,
     width: 'max-content',
     maxWidth: 'calc(100vw - clamp(32px,7vw,64px))',
     height: '84px',
@@ -156,7 +158,7 @@ export function computeTheme(model) {
     position: 'absolute',
     left: '50%',
     bottom: 0,
-    zIndex: 7,
+    zIndex: 6,
     width: 'min(680px, 94%)',
     paddingBottom: 'clamp(120px,14vw,140px)',
     maxHeight: 'calc(100vh - 8px)',
@@ -166,5 +168,5 @@ export function computeTheme(model) {
     pointerEvents: on ? 'auto' : 'none',
   })
 
-  return { baseHue, root, mkKey, trayOuter, trayInner, scrim, mkSheet, titleBar }
+  return { baseHue, root, mkKey, trayOuter, trayInner, scrim, mkSheet, titleBar, link }
 }

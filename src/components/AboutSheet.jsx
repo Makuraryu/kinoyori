@@ -11,7 +11,25 @@ const para = {
   letterSpacing: '.03em',
 }
 
+const noteHeading = {
+  fontFamily: "'Misaki Mincho','DotGothic16',monospace",
+  fontSize: 'clamp(14px,2.8vw,17px)',
+  color: 'var(--txt)',
+  letterSpacing: '.06em',
+  marginTop: '4px',
+  marginBottom: '8px',
+}
+const note = {
+  margin: '0 0 18px',
+  fontFamily: "'DotGothic16',monospace",
+  fontSize: 'clamp(14px,3vw,18px)',
+  lineHeight: 1.8,
+  color: 'var(--txtDim)',
+  letterSpacing: '.03em',
+}
+
 export default function AboutSheet({ open, theme }) {
+  const link = { color: theme.link, textDecoration: 'none' }
   return (
     <BottomSheet open={open} title="アバウト" theme={theme}>
       <div style={{ padding: 'clamp(24px,5vw,40px)' }}>
@@ -32,6 +50,35 @@ export default function AboutSheet({ open, theme }) {
         <p style={para}>
           背景のアニメーション＝天気、色あい＝暑さ・寒さ、画面のくもりと水滴＝蒸し具合。窓ガラスごしに
           今日の空気を 感じてください。
+        </p>
+
+        <div style={noteHeading}>クレジット・フォント・データ</div>
+        <p style={note}>
+          本文は{' '}
+          <a href="https://fonts.google.com/specimen/DotGothic16" target="_blank" rel="noreferrer" style={link}>
+            DotGothic16
+          </a>
+          （Google Fonts）、見出しは{' '}
+          <a href="https://littlelimit.net/misaki.htm" target="_blank" rel="noreferrer" style={link}>
+            美咲フォント
+          </a>
+          。
+        </p>
+
+        <p style={note}>
+          天気は{' '}
+          <a href="https://open-meteo.com/" target="_blank" rel="noreferrer" style={link}>
+            Open-Meteo
+          </a>
+          、都市検索は{' '}
+          <a href="https://nominatim.openstreetmap.org/" target="_blank" rel="noreferrer" style={link}>
+            Nominatim（OpenStreetMap）
+          </a>
+          、現在地の地名は{' '}
+          <a href="https://www.bigdatacloud.com/" target="_blank" rel="noreferrer" style={link}>
+            BigDataCloud
+          </a>
+          。
         </p>
       </div>
     </BottomSheet>
