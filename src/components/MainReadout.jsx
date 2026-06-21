@@ -1,5 +1,5 @@
 // Central readout: 「今日は昨日より〔phrase〕」 with temp values, a pixel divider,
-// then 「蒸し具合は〔phrase〕」 with dew-point values. Ported from the design.
+// then the dew-point phrase (a full sentence) with dew-point values. Ported from the design.
 
 const block = {
   flex: 1,

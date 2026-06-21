@@ -1,4 +1,5 @@
 import { describeWeather } from './weatherCodes.js'
+import { pickTempPhrase, pickDewPhrase } from './phrases.js'
 
 // Japanese weekday from a calendar date (tz-independent for the date portion).
 function weekdayChar(year, month, day) {
@@ -12,27 +13,8 @@ function formatDate(iso) {
   return `${m}月${d}日(${weekdayChar(y, m, d)})`
 }
 
-// Temperature phrase: how today compares to yesterday (ported from the design).
-function tempPhrase(d) {
-  const a = Math.abs(d)
-  if (a < 1) return '昨日とほぼ同じ'
-  const hot = d > 0
-  if (a < 3) return hot ? '少し暑い' : '少し涼しい'
-  if (a < 5) return hot ? 'かなり暑い' : 'かなり寒い'
-  return hot ? '猛烈に暑い' : '猛烈に寒い'
-}
-
-// Mugginess phrase, driven by the dew-point delta (ported from the design).
-function dewPhrase(d) {
-  const a = Math.abs(d)
-  if (a < 1) return '昨日とほぼ同じ'
-  const muggy = d > 0
-  if (a < 3) return muggy ? '少し蒸す' : 'さわやか'
-  if (a < 5) return muggy ? 'かなり蒸す' : 'かなりさわやか'
-  return muggy ? '猛烈に蒸す' : 'とてもさわやか'
-}
-
-const signed = (v) => (v > 0 ? '＋' : v < 0 ? '−' : '±') + Math.abs(v)
+const round1 = (v) => Math.round(v * 10) / 10
+const signed1 = (v) => (v > 0 ? '＋' : v < 0 ? '−' : '±') + Math.abs(round1(v))
 
 // Locate the hourly index matching the "current" timestamp, falling back to the
 // last past_days entry that is not in the future.
@@ -73,6 +55,12 @@ export function buildModel(forecast) {
   const tempDelta = tTemp - yTemp
   const dewDelta = tDew - yDew
 
+  // Raw (decimal) deltas drive phrase tiering so fractional band edges
+  // (e.g. dew-point 1.5°C) are honored; the rounded deltas above stay for the
+  // theme intensities and the integer readout.
+  const rawTempDelta = todayTempRaw - yTempRaw
+  const rawDewDelta = todayDewRaw - yDewRaw
+
   const weather = describeWeather(current.weather_code)
   const rain = weather.isRain
 
@@ -81,15 +69,15 @@ export function buildModel(forecast) {
   const cold = Math.max(0, -t)
   const muggy = Math.max(0, Math.min(1, dewDelta / 6))
 
-  const tp = tempPhrase(tempDelta)
-  const dw = dewPhrase(dewDelta)
+  const tp = pickTempPhrase(rawTempDelta)
+  const dw = pickDewPhrase(rawDewDelta, todayTempRaw)
 
   const detailRows = [
     { label: '天気', value: weather.label },
-    { label: '気温', value: `${tTemp}°C` },
-    { label: '昨日の気温', value: `${yTemp}°C （${signed(tempDelta)}°C）` },
-    { label: '露点', value: `${tDew}°C` },
-    { label: '昨日の露点', value: `${yDew}°C （${signed(dewDelta)}°C）` },
+    { label: '気温', value: `${round1(todayTempRaw)}°C` },
+    { label: '昨日の気温', value: `${round1(yTempRaw)}°C （${signed1(rawTempDelta)}°C）` },
+    { label: '露点', value: `${round1(todayDewRaw)}°C` },
+    { label: '昨日の露点', value: `${round1(yDewRaw)}°C （${signed1(rawDewDelta)}°C）` },
     { label: '温度の体感', value: tp },
     { label: '湿りの体感', value: dw },
   ]
@@ -110,7 +98,7 @@ export function buildModel(forecast) {
     yDew,
     tempPhrase: tp,
     dewPhrase: dw,
-    dewLine: '蒸し具合は' + dw,
+    dewLine: dw,
     weatherLabel: weather.label,
     dateStr: formatDate(current.time),
     detailRows,
